@@ -95,3 +95,12 @@ def vote(question_id):
         question.voter.append(g.user)
         db.session.commit()
     return redirect(url_for('question.detail', question_id=question_id))
+
+
+@bp.route('/unvote/<int:question_id>/')
+@login_required
+def unvote(question_id):
+    question = Question.query.get_or_404(question_id)
+    question.voter.remove(g.user)
+    db.session.commit()
+    return redirect(url_for('question.detail', question_id=question_id))

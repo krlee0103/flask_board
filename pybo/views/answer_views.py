@@ -70,3 +70,12 @@ def vote(answer_id):
         db.session.commit()
     return redirect('{}#answer_{}'.format(
                 url_for('question.detail', question_id=answer.question.id), answer.id))
+
+@bp.route('/unvote/<int:answer_id>/')
+@login_required
+def unvote(answer_id):
+    answer = Answer.query.get_or_404(answer_id)
+    answer.voter.remove(g.user)
+    db.session.commit()
+    return redirect('{}#answer_{}'.format(
+                url_for('question.detail', question_id=answer.question.id), answer.id))

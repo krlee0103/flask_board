@@ -3,7 +3,11 @@
 <div class="container my-3">
     <div class="row my-3">
         <div class="col-6">
+            {% if not g.user %}
+            <a href="{{ url_for('question.create') }}" class="btn btn-primary" onclick="return confirm('Please Log in')">Add question</a>
+            {% else %}
             <a href="{{ url_for('question.create') }}" class="btn btn-primary">Add question</a>
+            {% endif %}
         </div>
         <div class="col-6">
             <div class="input-group">

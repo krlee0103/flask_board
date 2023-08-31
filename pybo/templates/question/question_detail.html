@@ -25,8 +25,17 @@
                 </div>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0)" data-uri="{{ url_for('question.vote', question_id=question.id) }}"
-                   class="recommend btn btn-sm btn-outline-secondary"> Like
+                <a href="javascript:void(0)"
+                   {% if g.user in question.voter%}
+                   data-uri="{{ url_for('question.unvote', question_id=question.id) }}"
+                   {% else %}
+                   data-uri="{{ url_for('question.vote', question_id=question.id) }}"
+                   {% endif %}
+                   {% if not g.user %}
+                   class="recommend btn btn-sm btn-outline-secondary" onclick="return confirm('Please Log in')"> Like👍
+                    {% else %}
+                    class="recommend btn btn-sm btn-outline-secondary"> Like👍
+                    {% endif %}
                     <span class="badge rounded-pill bg-success">{{ question.voter|length }}</span>
                 </a>
 
@@ -59,8 +68,17 @@
                 </div>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0)" data-uri="{{ url_for('answer.vote', answer_id=answer.id) }}"
-                   class="recommend btn btn-sm btn-outline-secondary"> Like
+                <a href="javascript:void(0)"
+                   {% if g.user in answer.voter%}
+                   data-uri="{{ url_for('answer.unvote', answer_id=answer.id) }}"
+                   {% else %}
+                   data-uri="{{ url_for('answer.vote', answer_id=answer.id) }}"
+                   {% endif %}
+                   {% if not g.user %}
+                   class="recommend btn btn-sm btn-outline-secondary" onclick="return confirm('Please Log in')"> Like👍
+                    {% else %}
+                    class="recommend btn btn-sm btn-outline-secondary"> Like👍
+                    {% endif %}
                     <span class="badge rounded-pill bg-success">{{ answer.voter|length }}</span>
                 </a>
                 {% if g.user == answer.user %}
@@ -93,7 +111,11 @@
             <textarea {% if not g.user %}disabled{% endif %}
                       name="content" id="content" class="form-control" rows="10"></textarea>
         </div>
+        {% if not g.user %}
+        <input type="submit" value="Write Comment" class="btn btn-primary" onclick="return confirm('Please Log in')">
+        {% else %}
         <input type="submit" value="Write Comment" class="btn btn-primary">
+        {% endif %}
 
 
     </form>
@@ -111,13 +133,11 @@ Array.from(delete_elements).forEach(function(element) {
 });
 const recommend_elements = document.getElementsByClassName("recommend");
 Array.from(recommend_elements).forEach(function(element) {
-
-  element.addEventListener('click', function() {
-        if(confirm("Please Log in")) {
+    element.addEventListener('click', function() {
+        if(confirm){
             location.href = this.dataset.uri;
         };
     });
 });
-
 </script>
 {% endblock %}
