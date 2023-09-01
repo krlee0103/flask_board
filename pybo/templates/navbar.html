@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-        <a href=http://127.0.0.1:5000/question/list/>
+        <a href="{{ url_for('main.index') }}">
         <img src="{{url_for('static', filename= '/Image_logo/SmallLOGO.jpg')}}">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">FASYTON BOARD</a>
         <button class="navbar-toggler" type="button"
